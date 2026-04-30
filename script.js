@@ -1,5 +1,5 @@
 // --- 1. Global State ---
-let cart = [];
+// let cart = [];
 let currentPage = 1;
 const totalPages = 15;
 const cardsPerPage = 6;
@@ -46,13 +46,21 @@ function renderPagination() {
     const container = document.getElementById('pagination-container');
     if (!container) return;
 
+    // Calculate if we are at the very start or very end
+    const isFirstPage = currentPage === 1;
+    const isLastPage = currentPage === totalPages;
+
     let html = '';
-    // Previous Arrow
-    html += `<button class="btn btn-outline" onclick="changePage(${Math.max(1, currentPage - 1)})">
+
+    // 1. Previous Arrow - Added 'disabled' check
+    html += `
+    <button class="btn btn-outline" 
+            onclick="changePage(${currentPage - 1}, event)" 
+            ${isFirstPage ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
     </button>`;
 
-    // Logic for numbers and dots
+    // ... (Keep your existing Logical Number Rendering code here) ...
     if (totalPages <= 5) {
         for (let i = 1; i <= totalPages; i++) html += renderBtn(i);
     } else {
@@ -65,8 +73,11 @@ function renderPagination() {
         html += renderBtn(totalPages);
     }
 
-    // Next Arrow
-    html += `<button class="btn btn-next" onclick="changePage(${Math.min(totalPages, currentPage + 1)})">
+    // 2. Next Arrow - Added 'disabled' check
+    html += `
+    <button class="btn btn-next" 
+            onclick="changePage(${currentPage + 1}, event)" 
+            ${isLastPage ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </button>`;
 
@@ -77,11 +88,28 @@ function renderBtn(num) {
     return `<button class="btn ${num === currentPage ? 'active' : ''}" onclick="changePage(${num})">${num}</button>`;
 }
 
-function changePage(newPage) {
+function changePage(newPage, event) {
+    // Stop the page from reloading or jumping to the top automatically
+    if (event) {
+        event.preventDefault();
+    }
+
     currentPage = newPage;
     updateDisplay();
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Optional: scroll to top on page change
+    
+    // If you want it to scroll smoothly to the cards (not a refresh)
+    document.getElementById('cards-container').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+    });
 }
+
+// Update this helper to pass the 'event'
+function renderBtn(num) {
+    return `<button class="btn ${num === currentPage ? 'active' : ''}" 
+            onclick="changePage(${num}, event)">${num}</button>`;
+}
+
 
 // --- 4. Cart Logic ---
 function addToCart(name, price) {

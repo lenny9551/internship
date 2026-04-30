@@ -2,28 +2,44 @@
     margin:0; /* remove default outer spacing */
     padding:0; /* remove default inner spacing */
     box-sizing:border-box; /* include padding/border in element width/height */
-    font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; /* preferred fonts with fallbacks */
-}
+   font-family: Manrope,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;}
 /* body{
   background:#f7f7f7;
 } */
 
 /* NAV */
 header {
+    /* 1. THE BACKDROP (MS Edge & Modern Browsers) */
+    /* Note: Edge supports standard backdrop-filter, but -webkit is kept for older versions */
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    backdrop-filter: blur(12px) saturate(180%);
+
+    /* 2. THE GRADIENT (Using your colors with 70% opacity to allow the blur) */
+    background: 
+        /* The subtle glow effect (#faf4e9 at 70% opacity) */
+        radial-gradient(circle at 85% 50%, rgba(250, 244, 233, 0.7) 0%, transparent 70%),
+        
+        /* The Main Vertical Gradient (#fef2ba to #faf4e9 at 70% opacity) */
+        linear-gradient(180deg, rgba(254, 242, 186, 0.7) 0%, rgba(250, 244, 233, 0.7) 100%);
+
+    /* Layout & Positioning */
     position: fixed;
     top: 0;
-    left: 0; /* Ensures it starts at the very edge */
+    left: 0;
     width: 100%;
+    height: 81px;
     z-index: 999;
-    box-sizing: border-box; 
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    box-sizing: border-box;
     
-    /* Backdrop Effects */
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(10.5px);
-     background: linear-gradient(to bottom, #FDEEEACC, #FFFDF9CC);  
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
-    padding: 12px 48px;
+    /* Clean finishing touch */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
+
+
+    
 
 nav {
     display: flex;
@@ -136,20 +152,22 @@ body {
 .hero {
     /* STACKED BACKGROUNDS */
     background: 
-        /* 1. The Orange Radial Glow (Right side behind food) */
-        radial-gradient(circle at 85% 50%, rgba(255, 154, 38, 0.12) 0%, rgba(255, 154, 38, 0) 60%),
+        /* 1. The subtle glow effect using your lighter cream (#faf4e9) */
+        radial-gradient(circle at 85% 50%, #faf4e9 0%, transparent 70%),
         
-        /* 2. The Main Warm-to-White Vertical Gradient */
-        linear-gradient(180deg, #FDEEEA 0%, #FFFDF9 100%);
+        /* 2. The Main Vertical Gradient using your yellow (#fef2ba) */
+        linear-gradient(180deg, #fef2ba 0%, #faf4e9 100%);
     
     width: 100%;
     min-height: 90vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10%; /* Matches the container spacing in the image */
+    padding: 12px 32px 80px 22px;
+    margin: 0 auto; /* Centered with your margin logic */
     box-sizing: border-box;
 }
+
 
 
 
@@ -160,9 +178,21 @@ body {
 }
 
 .hero-text{
-  max-width:500px; /* constrain text width for readability */
-  animation:fadeIn 1s; /* fade-in animation */
-  flex-shrink: 0; /* prevent shrinking */
+font-family: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+font-size: 16px;
+line-height: 24px;
+text-align: left;
+word-spacing: 0px;
+height: 409.188px;
+width: 568px;
+border: 0px solid  #E5E7EB;
+min-height: auto;
+min-width: auto;
+display: block;
+transform: none;
+transition: all;
+/* outline: rgb(255, 0, 0) dashed 1px */
+box-sizing: border-box;
 }
 .hero-text h1{
     width: 100%; /* full width of container */
@@ -170,7 +200,14 @@ body {
   font-family: "manrope,-apple-system ",sans-serif; /* heading font with fallback */
   font-weight: 600; /* semi-bold weight */
   margin-bottom:20px; /* spacing below heading */
-  line-height: 1.2; /* tighter line height */
+  line-height: 1.2;
+  word-spacing: 0px; /* tighter line height */
+  color:   #4B5563; /* tighter line height */
+  height: 105.594px;
+width: 568px;
+border: 0px solid  #E5E7EB;
+margin: 32px 0 0 0;
+display: block;
 }
 .hero-text span {
   color:#ff8c42; /* accent color for emphasis */
@@ -179,26 +216,77 @@ body {
     color:#000000;
 }
 .badge{
-        display:inline-block;
-        background:#ffffff;
-        
-        padding:10px 12px;
-        width: 30%;
-        border-radius:20px;
-        /* font-weight:600; */
-        font-size: 8px;
-        box-shadow:0 2px 6px rgba(0,0,0,0.08);
-        margin-right: 200px;
+       font-family: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+font-size: 6.4px;
+font-weight: 700;
+letter-spacing: 0.32px;
+line-height: 9.6px;
+text-align: left;
+text-transform: uppercase;
+word-spacing: 0px;
+background-color:  #FFFFFF;
+background-position: 0% 0%;
+color:  #111827;
+height: 9.60938px;
+width: 99.8594px;
+border: 0px solid  #E5E7EB;
+min-height: auto;
+min-width: auto;
+height: 36px;
+width: 163.859px;
+border: none;
+padding : 6px 16px 6px 16px;
+display : inline-flex;
+transform: none;
+transition: box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+/* outline: rgb(255, 0, 0) dashed 1px; */
+box-sizing: border-box;
+box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
+border-top-left-radius: 9999px;
+border-top-right-radius: 9999px;
+border-bottom-left-radius: 9999px;
+border-bottom-right-radius: 9999px;
 }
 
 .hero-text p{
 
-  color:#777; /* muted paragraph color */
-  margin-bottom:25px; /* spacing below paragraph */
+ font-family: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+font-size: 14px;
+font-weight: 500;
+line-height: 19.6px;
+text-align: left;
+word-spacing: 0px;
+/* background-color:  #FFFFFF; */
+background-position: 0% 0%;
+color:  #4B5563;
+height: 19.5938px;
+width: 512px;
+border: 0px solid  #E5E7EB;
+margin: 42px 0 32px 0;
+max-width: 512px;
+display: block;
+transform: none;
+transition: all;
+/* outline: rgb(255, 0, 0) dashed 1px; */
+box-sizing: border-box;
 }
 .quick{
-  margin: 20px 0 0 0; /* spacing above quick buttons */
-  
+  font-family: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+font-size: 16px;
+line-height: 24px;
+text-align: left;
+word-spacing: 0px;
+ /* spacing above quick buttons */
+  /* background-color:  #FFFFFF; */
+background-position: 0% 0%;
+color:  #000000;
+height: 66px;
+width: 512px;
+border: 0px solid  #E5E7EB;
+margin: 0 0 0 0;
+padding: 0;
+display: flex;
+box-sizing: border-box;
 }
 .quick p{
     color:#777; /* muted text color */
@@ -259,12 +347,28 @@ body {
 }
 
 .search-box{
-    display:flex; /* show input and button inline */
-    background:white; /* white search background */
-    padding: 8px; /* inner spacing */
-    border-radius:30px; /* rounded search box */
-    box-shadow:0 8px 20px rgba(0,0,0,0.1); /* soft shadow */
-    margin-bottom: 30px; /* space below search */
+    font-family: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+font-size: 16px;
+line-height: 24px;
+text-align: left;
+word-spacing: 0px;/* space below search */
+background-color:  #ffff;
+background-position: 0% 0%;
+color:  #000000;
+height: 66px;
+width: 512px;
+border: 1px solid  #F3F4F6;
+padding: 8px 8px 8px 8px;
+display: flex;
+transform: none;
+transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* outline: rgb(255, 0, 0) dashed 1px */
+box-sizing: border-box;
+box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.06) 0px 8px 30px 0px;
+border-top-left-radius: 9999px;
+border-top-right-radius: 9999px;
+border-bottom-left-radius: 9999px;
+border-bottom-right-radius: 9999px;
 }
 
 .search-box input{
@@ -396,11 +500,14 @@ body {
 }
 
 /* GRID */
-.grid{
-    display:grid; /* use CSS grid */
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); /* responsive columns */
-    gap:25px; /* gap between cards */
+.grid {
+    display: grid;
+    /* Change 1fr to a fixed max width (like 280px) or use repeat with a specific number */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 280px)); 
+    gap: 25px;
+    justify-content: center; /* Optional: keeps the cards centered in the container */
 }
+
 
 .card.hidden{
     display: none; /* hide filtered cards */
@@ -523,6 +630,12 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 12px 24px rgba(255, 154, 38, 0.4);
 }
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none; /* Extra layer of protection */
+}
+
 
 /* CART PANEL */
 /* --- CART PANEL --- */
@@ -5748,4 +5861,7 @@ button[data-v-7cc6f64c] {
     html[data-v-7cc6f64c] {
         scroll-behavior:smooth
     }
+}
+@media(min-width : 600px){
+
 }
