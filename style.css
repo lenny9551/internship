@@ -156,7 +156,7 @@ body {
         radial-gradient(circle at 85% 50%, #faf4e9 0%, transparent 70%),
         
         /* 2. The Main Vertical Gradient using your yellow (#fef2ba) */
-        linear-gradient(180deg, #fef2ba 0%, #faf4e9 100%);
+        linear-gradient(90deg, #fef2ba 0%, #faf4e9 100%);
     
     width: 100%;
     min-height: 90vh;
@@ -872,6 +872,9 @@ border-bottom-right-radius: 9999px;
         height: auto; /* keep aspect ratio */
         object-fit: contain; /* contain image inside box */
         /* border: #000000 2px solid; add border to logo */
+}
+.social-icons{
+    
 }
 
 /* ANIMATIONS */
