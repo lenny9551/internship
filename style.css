@@ -15,12 +15,12 @@ header {
     backdrop-filter: blur(12px) saturate(180%);
 
     /* 2. THE GRADIENT (Using your colors with 70% opacity to allow the blur) */
-    background: 
+    /* background:  */
         /* The subtle glow effect (#faf4e9 at 70% opacity) */
-        radial-gradient(circle at 85% 50%, rgba(250, 244, 233, 0.7) 0%, transparent 70%),
-        
+        /* radial-gradient(circle at 85% 50%, rgba(250, 244, 233, 0.7) 0%, transparent 70%),
+         */
         /* The Main Vertical Gradient (#fef2ba to #faf4e9 at 70% opacity) */
-        linear-gradient(180deg, rgba(254, 242, 186, 0.7) 0%, rgba(250, 244, 233, 0.7) 100%);
+        /* linear-gradient(180deg, rgba(254, 242, 186, 0.7) 0%, rgba(250, 244, 233, 0.7) 100%); */
 
     /* Layout & Positioning */
     position: fixed;
@@ -122,31 +122,152 @@ nav {
 
 
 /* CART ICON */
-.cart-icon {
-    position: relative;
-    cursor: pointer;
-    color: #4A4A4A;
+/* 1. Ensure the cart is on the highest layer */
+/* Sidebar - Using Translate to avoid breaking your header */
+/* Sidebar - Clean & Floating over content */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 100000;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
-    align-items: center;
-    margin-right: 20px;
+    flex-direction: column;
+    box-shadow: -8px 0 35px rgba(0,0,0,0.06);
 }
 
-.cart-count {
-    position: absolute;
-    top: -10px;
-    right: -5px;
-    background-color: #FF8C00; /* Matching brand orange */
-    color: white;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
+.cart-sidebar.active { transform: translateX(0); }
+
+/* Item Card - Matches the Image Padding & Border */
+.cart-card {
+    display: flex;
+    padding: 12px 16px;
+    margin: 12px 20px;
+    border: 1px solid #f2f2f2; /* Light grey as seen in image */
+    border-radius: 10px;
+    background: #fff;
+    align-items: center;
+}
+
+.item-img-placeholder {
+    width: 64px;
+    height: 64px;
+    background: #f8f8f8;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
-    font-weight: bold;
-    border: 2px solid white; /* Makes it pop against the background */
+    margin-right: 16px;
 }
+
+/* Icons in placeholders (matching the image icon) */
+.item-img-placeholder svg {
+    color: #cbd5e0;
+    width: 24px;
+}
+
+.item-details { flex: 1; }
+
+.item-title-row { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 6px; 
+}
+
+.item-name { 
+    font-size: 14.5px; 
+    font-weight: 500; 
+    color: #2d3748; 
+}
+
+/* The dropdown arrow icon next to title */
+.item-title-row::after {
+    content: '⌄';
+    color: #a0aec0;
+    font-size: 18px;
+    margin-left: 8px;
+}
+
+.price-qty-row { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+}
+
+.item-price { 
+    color: #f39200; 
+    font-weight: 700; 
+    font-size: 14px; 
+}
+
+/* Quantity Pill - Precise Match */
+.qty-wrapper {
+    display: flex; 
+    align-items: center; 
+    gap: 12px;
+    background: #edf2f7; /* Light blue-grey tint */
+    border-radius: 20px; 
+    padding: 2px 10px;
+}
+
+.qty-wrapper button {
+    border: none; 
+    background: none; 
+    font-size: 18px; 
+    font-weight: 500;
+    cursor: pointer; 
+    color: #4a5568; 
+    padding: 0 4px;
+    line-height: 1;
+}
+
+/* Footer Section - Typography refinement */
+.cart-footer { 
+    padding: 24px 20px; 
+    border-top: 1px solid #f1f1f1; 
+    margin-top: auto; 
+}
+
+.footer-line { 
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 12px; 
+    font-size: 14px; 
+    color: #718096;
+}
+
+.footer-line b { color: #1a202c; font-weight: 600; }
+
+.total-line { 
+    font-weight: 800; 
+    font-size: 18px; 
+    padding-top: 10px; 
+    color: #1a202c;
+}
+
+.total-price { color: #f39200; }
+
+/* The Main Orange Button */
+.checkoutbtn {
+    width: 100%; 
+    background: #f39200; 
+    color: white; 
+    border: none;
+    padding: 16px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background 0.2s;
+}
+
+.checkout-btn:hover { background: #e08600; }
 
 body {
     padding-top: 80px; /* Adjusted for the new nav height */
@@ -170,6 +291,7 @@ body {
     padding: 12px 32px 80px 22px;
     margin: 0 auto; /* Centered with your margin logic */
     box-sizing: border-box;
+    /* padding-top: 56px; */
 }
 
 
@@ -877,9 +999,7 @@ border-bottom-right-radius: 9999px;
         object-fit: contain; /* contain image inside box */
         /* border: #000000 2px solid; add border to logo */
 }
-.social-icons{
-    
-}
+
 
 /* ANIMATIONS */
 @keyframes fadeIn{

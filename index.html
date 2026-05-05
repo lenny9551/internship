@@ -11,24 +11,67 @@
 <body>
 <header>
 <nav>
-    <div class="logo"><img src="https://officeats.rw/assets/OFFICEATS_logo-CZ3SuK8T.png" alt="logo"></div>
+    <div class="logo">
+        <img src="https://officeats.rw/assets/OFFICEATS_logo-CZ3SuK8T.png" alt="logo">
+    </div>
     
     <div class="nav-links">
-        <ul>
+        <ul style="display: flex; align-items: center; list-style: none; gap: 15px;">
             <li><a href="#">Home</a></li>
             <li><a href="#">Menu</a></li>
-          <li><a href="#">corporate</a></li>
-            <li><a href="#"><button class="bg-primary text-white text-sm px-4 py-1.5 rounded-md flex items-center gap-x-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path></svg> Sign In </button></a></li>
+            <li><a href="#">corporate</a></li>
+            <li>
+                <a href="#">
+                    <button class="bg-primary text-white text-sm px-4 py-1.5 rounded-md flex items-center gap-x-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path></svg> 
+                        Sign In 
+                    </button>
+                </a>
+            </li>
+            <!-- THE CORRECTED CART POSITION -->
+            <li>
+                <div class="cart-icon-ball" onclick="toggleCart()">
+                    <i class="bi bi-cart3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                        </svg>
+                    </i>
+                    <span id="cartCount" class="cart-count-badge">0</span>
+                </div>
+            </li>
         </ul>
-      
-        <div class="cart-icon" onclick="toggleCart()">
-            <i class="bi bi-cart3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
-  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-</svg></i>
-            <span id="cartCount" class="cart-count">0</span>
-        </div>
     </div>
 </nav>
+
+<!-- BACKGROUND OVERLAY (Dims screen) -->
+<div id="cartOverlay" class="cart-overlay" onclick="toggleCart()"></div>
+
+<!-- THE CART SIDEBAR (Moved out of Nav to avoid cooking your code) -->
+<div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header" style="padding: 20px; display: flex; justify-content: space-between; border-bottom: 1px solid #eee;">
+        <span class="cart-title" style="font-weight: 800; font-size: 1.2rem;">Your Cart</span>
+        <span class="close-cart" onclick="toggleCart()" style="cursor: pointer; font-size: 24px; color: #ccc;">&times;</span>
+    </div>
+    
+    <div id="cartItems" class="cart-items-scroller" style="flex: 1; overflow-y: auto;">
+        <!-- JS injects cards here -->
+    </div>
+
+    <div class="cart-footer" style="padding: 20px; border-top: 1px solid #eee;">
+        <div class="footer-line" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <span>Subtotal</span>
+            <b id="subtotal">0 Rwf</b>
+        </div>
+        <div class="footer-line" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <span>Total</span>
+            <b id="total" style="color: #f39200; font-size: 1.2rem;">0 Rwf</b>
+        </div>
+        <button id="checkoutBtn" class="checkoutbtn" onclick="checkout()" style="width: 100%; background: #f39200; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer;">
+            Proceed to Checkout (0 items)
+        </button>
+    </div>
+</div>
+
 </header>
 <section class="hero">
     <div class="hero-text">
@@ -744,5 +787,136 @@
 </footer>
 
 <script src="script.js"></script>
+<!-- Background dim layer (stays hidden until clicked) -->
+<!-- Background Overlay to dim the screen -->
+<!-- 1. The Cart Trigger Icon (Place this in your Nav or Header) -->
+<div class="cart-container" style="position: fixed; top: 20px; right: 20px; z-index: 999;">
+   
+</div>
+
+<!-- 2. Background Overlay (Dims the screen) -->
+<div id="cartOverlay" class="cart-overlay" onclick="toggleCart()"></div>
+
+<!-- 3. The Premium Sidebar (Matches the design 100%) -->
+<div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header-top">
+        <h3>Your Cart</h3>
+        <span class="close-sidebar" onclick="toggleCart()">&times;</span>
+    </div>
+
+    <!-- THIS IS THE CRITICAL DIV WHERE PRODUCTS ARE INJECTED -->
+    <div id="cartItems" class="cart-items-scroller">
+        <!-- Products will appear here via JavaScript -->
+    </div>
+
+    <div class="cart-footer-box">
+        <div class="footer-row">
+            <span>Subtotal</span>
+            <b id="subtotal">0 Rwf</b>
+        </div>
+        <div class="footer-row total-big">
+            <span>Total</span>
+            <span id="total" style="color: #f39200;">0 Rwf</span>
+        </div>
+        <!-- The Main Checkout Button -->
+        <button id="checkoutBtn" class="main-checkout-btn" onclick="checkout()">
+            Proceed to Checkout (0 items)
+        </button>
+    </div>
+</div>
+
+<!-- 4. Example Product Button (For your main page) -->
+<!-- <button onclick="addToCart('burger', 3000)">Add Burger</button> -->
+
+<style>
+/* Sidebar Logic - No Layout Shifting *//* 1. The Cart Sidebar & Overlay (No Changes Here) */
+.cart-sidebar {
+    position: fixed;
+    top: 0; right: 0;
+    width: 400px; height: 100vh;
+    background: #fff;
+    z-index: 100000;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; flex-direction: column;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.08);
+}
+.cart-sidebar.active { transform: translateX(0); }
+
+.cart-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 99999;
+    display: none;
+}
+.cart-overlay.active { display: block; }
+
+/* 2. FIXED: The Green Ball Icon & Badge */
+.cart-icon-ball {
+    background: #28a745; 
+    width: 45px; 
+    height: 45px;
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+    cursor: pointer; 
+    position: relative;
+    margin-left: 10px; /* This prevents it from hitting your Sign In button */
+    transition: all 0.2s ease;
+}
+
+.cart-icon-ball:hover {
+    background: #218838;
+    transform: scale(1.05);
+}
+
+.cart-count-badge {
+    position: absolute; 
+    top: -2px; /* Adjusted to sit better on the curve */
+    right: -2px; 
+    background: white; 
+    color: #28a745;
+    width: 18px; 
+    height: 18px; 
+    border-radius: 50%;
+    font-size: 11px; 
+    font-weight: 800; 
+    border: 2px solid #28a745;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Internal Card Styling for updateCart function */
+.cart-card {
+    display: flex; padding: 15px; margin: 10px 20px;
+    border: 1px solid #f0f0f0; border-radius: 12px; align-items: center;
+}
+.item-img-placeholder { width: 60px; height: 60px; background: #f8f8f8; border-radius: 8px; margin-right: 15px; }
+.item-price { color: #f39200; font-weight: 700; }
+.qty-wrapper { display: flex; align-items: center; gap: 10px; background: #f0f0f0; border-radius: 20px; padding: 2px 10px; }
+
+
+/* Scroll Area for items */
+.cart-items-scroller { flex: 1; overflow-y: auto; padding: 10px 0; }
+
+/* Footer styling */
+.cart-footer-box { padding: 20px; border-top: 1px solid #eee; }
+.footer-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+.total-big { font-weight: 800; font-size: 18px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f9f9f9; }
+
+.main-checkout-btn {
+    width: 100%; background: #f39200; color: white; border: none;
+    padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer;
+    margin-top: 15px; font-size: 15px;
+}
+
+.cart-header-top { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f5f5f5; }
+.close-sidebar { font-size: 28px; cursor: pointer; color: #ccc; }
+</style>
+
 </body>
 </html>

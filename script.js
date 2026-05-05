@@ -112,48 +112,104 @@ function renderBtn(num) {
 
 
 // --- 4. Cart Logic ---
+let cart = [];
+
+// 1. Toggle Sidebar & Overlay
+function toggleCart() {
+    const sidebar = document.getElementById("cartSidebar");
+    const overlay = document.getElementById("cartOverlay");
+    
+    if (sidebar) sidebar.classList.toggle("active");
+    if (overlay) overlay.classList.toggle("active");
+}
+
+// 2. Add Item & Auto-Open Sidebar
 function addToCart(name, price) {
-    cart.push({ name, price });
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+        existing.quantity++;
+    } else {
+        cart.push({ name, price, quantity: 1 });
+    }
+    
+    updateCart();
+    
+    // Smoothly auto-open the cart when an item is added
+    const sidebar = document.getElementById("cartSidebar");
+    const overlay = document.getElementById("cartOverlay");
+    if (sidebar) sidebar.classList.add("active");
+    if (overlay) overlay.classList.add("active");
+}
+
+// 3. Change Quantity (Removes item if quantity hits 0)
+function changeQty(index, delta) {
+    cart[index].quantity += delta;
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
     updateCart();
 }
 
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCart();
-}
-
+// 4. Update UI (HTML Injection)
 function updateCart() {
-    let items = document.getElementById("cartItems");
-    let total = document.getElementById("total");
-    let count = document.getElementById("cartCount");
-    let sum = 0;
+    const container = document.getElementById("cartItems");
+    let total = 0;
+    let count = 0;
 
-    items.innerHTML = "";
+    container.innerHTML = "";
+
     cart.forEach((item, index) => {
-        sum += item.price;
-        items.innerHTML += `
-            <div class="cart-item">
-                <span class="cart-item-name">${item.name}</span>
-                <span class="cart-item-price">${item.price} Rwf</span>
-                <button class="cart-item-remove" onclick="removeFromCart(${index})">×</button>
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        count += item.quantity;
+
+        container.innerHTML += `
+            <div class="cart-card">
+                <div class="item-img-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px; color:#cbd5e0;">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+                    </svg>
+                </div>
+                <div class="item-details">
+                    <div class="item-title-row">
+                        <span class="item-name">${item.name}</span>
+                    </div>
+                    <div class="price-qty-row">
+                        <span class="item-price">${item.price.toLocaleString()} Rwf</span>
+                        <div class="qty-wrapper">
+                            <button onclick="changeQty(${index}, -1)">−</button>
+                            <span style="font-weight:600; font-size:14px;">${item.quantity}</span>
+                            <button onclick="changeQty(${index}, 1)">+</button>
+                        </div>
+                    </div>
+                </div>
             </div>`;
     });
 
-    total.innerText = sum;
-    count.innerText = cart.length;
+    // Update Totals and Count
+    document.getElementById("cartCount").innerText = count;
+    document.getElementById("subtotal").innerText = total.toLocaleString() + " Rwf";
+    document.getElementById("total").innerText = total.toLocaleString() + " Rwf";
+    document.getElementById("checkoutBtn").innerText = `Proceed to Checkout (${count} items)`;
 }
 
-function toggleCart() {
-    document.getElementById("cart").classList.toggle("active");
-}
-
+// 5. Checkout Logic
 function checkout() {
-    if (cart.length === 0) return alert("Your cart is empty!");
-    alert(`Proceeding to checkout. Total: ${document.getElementById("total").innerText} Rwf`);
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    const finalTotal = document.getElementById("total").innerText;
+    alert(`Proceeding to checkout.\nTotal Order: ${finalTotal}`);
+    
+    // Clear cart after checkout
     cart = [];
     updateCart();
     toggleCart();
 }
+
+
 
 // --- 5. Filter Scroll Logic ---
 function scrollFilters(direction) {
