@@ -157,9 +157,14 @@ function renderBtn(num) {
 // --- 4. Cart Logic ---
 // The cart is stored in memory while the page is open, and the UI is
 // rebuilt every time the cart changes.
-let cart = [];
+// 1. Load cart from localStorage on startup, or start with empty array if none exists
+let cart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
 
-// 1. Toggle Sidebar & Overlay
+// 0. IMPORTANT: Run the update function once on page load to restore UI
+document.addEventListener("DOMContentLoaded", () => {
+    updateCart();
+});
+
 function toggleCart() {
     const sidebar = document.getElementById("cartSidebar");
     const overlay = document.getElementById("cartOverlay");
@@ -168,7 +173,6 @@ function toggleCart() {
     if (overlay) overlay.classList.toggle("active");
 }
 
-// 2. Add Item & Auto-Open Sidebar
 function addToCart(name, price) {
     const existing = cart.find(item => item.name === name);
     if (existing) {
@@ -179,14 +183,12 @@ function addToCart(name, price) {
     
     updateCart();
     
-    // Smoothly auto-open the cart when an item is added
     const sidebar = document.getElementById("cartSidebar");
     const overlay = document.getElementById("cartOverlay");
     if (sidebar) sidebar.classList.add("active");
     if (overlay) overlay.classList.add("active");
 }
 
-// 3. Change Quantity (Removes item if quantity hits 0)
 function changeQty(index, delta) {
     cart[index].quantity += delta;
     if (cart[index].quantity <= 0) {
@@ -195,8 +197,10 @@ function changeQty(index, delta) {
     updateCart();
 }
 
-// 4. Update UI (HTML Injection)
 function updateCart() {
+    // 2. Save the current cart state to localStorage whenever it changes
+    localStorage.setItem("shoppingCart", JSON.stringify(cart));
+
     const container = document.getElementById("cartItems");
     let total = 0;
     let count = 0;
@@ -231,14 +235,12 @@ function updateCart() {
             </div>`;
     });
 
-    // Update Totals and Count
     document.getElementById("cartCount").innerText = count;
     document.getElementById("subtotal").innerText = total.toLocaleString() + " Rwf";
     document.getElementById("total").innerText = total.toLocaleString() + " Rwf";
     document.getElementById("checkoutBtn").innerText = `Proceed to Checkout (${count} items)`;
 }
 
-// 5. Checkout Logic
 function checkout() {
     if (cart.length === 0) {
         alert("Your cart is empty!");
@@ -248,9 +250,8 @@ function checkout() {
     const finalTotal = document.getElementById("total").innerText;
     alert(`Proceeding to checkout.\nTotal Order: ${finalTotal}`);
     
-    // Clear cart after checkout
     cart = [];
-    updateCart();
+    updateCart(); // This will also clear the localStorage
     toggleCart();
 }
 
