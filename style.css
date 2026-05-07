@@ -752,6 +752,8 @@ border-bottom-right-radius: 9999px;
     grid-template-rows: repeat(2, auto);
     gap: 25px;
     justify-content: stretch;
+    overflow: hidden;
+    max-height: calc(2 * 340px + 25px);
 }
 
 
