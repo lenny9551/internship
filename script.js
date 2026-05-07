@@ -1,11 +1,21 @@
+// --- OfficeEats Pro JavaScript ---
+// This file manages the interactive behavior for the app:
+// - card filtering by category
+// - automatic dish naming based on data-category
+// - pagination of the dish grid
+// - shopping cart and checkout behavior
+// - filter button scrolling support
+
 // --- 1. Global State ---
+// keep track of current page, pagination settings, and active filter
 // let cart = [];
 let currentPage = 1;
-const totalPages = 15;
-const cardsPerPage = 6;
+let totalPages = 1;
+const cardsPerPage = 10;
 let currentCategory = "all"; // Track category for pagination compatibility
 
 // --- 2. Filter Logic ---
+// Handles category button clicks and updates the UI state.
 function filterDishes(category) {
     currentCategory = category;
     currentPage = 1; // Reset to page 1 when filtering
@@ -20,6 +30,8 @@ function filterDishes(category) {
 
 // --- 3. Integrated Pagination & Display Logic ---
 function updateDisplay() {
+    // Make sure every card has the correct name before we show/hide cards.
+    nameDishesByCategory();
     const allCards = Array.from(document.querySelectorAll(".card"));
     
     // First, filter by category
@@ -28,6 +40,9 @@ function updateDisplay() {
     });
 
     // Second, handle visibility based on page
+    totalPages = Math.max(1, Math.ceil(filteredCards.length / cardsPerPage));
+    if (currentPage > totalPages) currentPage = totalPages;
+
     const start = (currentPage - 1) * cardsPerPage;
     const end = start + cardsPerPage;
 
@@ -42,7 +57,35 @@ function updateDisplay() {
     renderPagination();
 }
 
+function nameDishesByCategory() {
+    // This function reads each card's data-category and writes a unique
+    // dish name into the card title. It makes new local dish cards work
+    // automatically without manual heading changes.
+    const categoryNames = {
+        coffee: ['Cappuccino', 'Arabic Coffee', 'Local Coffee', 'Espresso', 'Flat White', 'Americano', 'Latte', 'Mocha', 'Macchiato', 'Iced Coffee', 'Caramel Latte', 'Irish Coffee', 'Cortado', 'French Press', 'Vienna Coffee'],
+        burger: ['Classic Burger', 'Cheese Burger', 'Bacon Burger', 'Spicy Burger', 'Double Burger', 'Mushroom Burger', 'Chicken Burger', 'Veggie Burger', 'BBQ Burger', 'Swiss Burger', 'Deluxe Burger', 'Smoky Burger', 'Chili Burger', 'Mediterranean Burger', 'Signature Burger'],
+        meat: ['Red Meat', 'Beef Steak', 'Grilled Meat', 'Lamb Chops', 'Pork Ribs', 'Barbecue Meat', 'Mixed Meat', 'Spicy Beef', 'Beef Tenderloin'],
+        vegetarian: ['Veggie Salad', 'Green Delight', 'Garden Bowl', 'Vegan Wrap', 'Bean Salad', 'Tofu Bowl', 'Herb Salad', 'Veggie Platter', 'Spinach Wrap'],
+        appetizer: ['Spring Rolls', 'Bruschetta', 'Garlic Bread', 'Chicken Wings', 'Stuffed Mushrooms', 'Onion Rings', 'Fried Calamari', 'Cheese Sticks', 'Nachos', 'Spicy Bites'],
+        seafood: ['Shrimp Platter', 'Grilled Fish', 'Fried Fish', 'Crab Salad', 'Seafood Pasta', 'Fish Tacos', 'Lobster Roll', 'Calamari', 'Seafood Curry', 'Ocean Delight'],
+        drink: ['Coca Cola', 'Fruit Juice', 'Mango Drink', 'Sparkling Water', 'Lemonade', 'Iced Tea', 'Smoothie', 'Milkshake', 'Ginger Beer', 'Mineral Water']
+    };
+
+    const categoryCount = {};
+    document.querySelectorAll('.card[data-category]').forEach(card => {
+        const category = card.dataset.category || 'item';
+        const title = card.querySelector('.card-content h4');
+        if (!title) return;
+
+        const index = categoryCount[category] || 0;
+        const names = categoryNames[category] || [];
+        title.textContent = names[index] || `${category.charAt(0).toUpperCase() + category.slice(1)} ${index + 1}`;
+        categoryCount[category] = index + 1;
+    });
+}
+
 function renderPagination() {
+    // Build the page number buttons and next/previous arrows.
     const container = document.getElementById('pagination-container');
     if (!container) return;
 
@@ -112,6 +155,8 @@ function renderBtn(num) {
 
 
 // --- 4. Cart Logic ---
+// The cart is stored in memory while the page is open, and the UI is
+// rebuilt every time the cart changes.
 let cart = [];
 
 // 1. Toggle Sidebar & Overlay
@@ -212,6 +257,7 @@ function checkout() {
 
 
 // --- 5. Filter Scroll Logic ---
+ // Handles the horizontal scroll buttons for the category filter bar.
 function scrollFilters(direction) {
     const container = document.getElementById("filterButtonsContainer");
     const scrollAmount = 200;
@@ -231,6 +277,7 @@ function updateScrollButtons() {
 
 // --- 6. Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
+    nameDishesByCategory();
     updateDisplay(); // Initial load of cards and pagination
     updateScrollButtons();
     const filterContainer = document.getElementById("filterButtonsContainer");

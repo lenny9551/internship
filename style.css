@@ -1,3 +1,7 @@
+/* OfficeEats Pro styles
+   This file contains the reset, layout, navigation, hero, card,
+   and cart styles for the whole page. */
+
 *{ /* universal selector: applies to all elements */
     margin:0; /* remove default outer spacing */
     padding:0; /* remove default inner spacing */
@@ -358,6 +362,7 @@ body {
     padding-top: 80px; /* Adjusted for the new nav height */
 }
 /* HERO */
+/* Styles for the hero section with gradient background and hero text. */
 .hero {
      
     /* STACKED BACKGROUNDS */
@@ -541,7 +546,7 @@ box-sizing: border-box;
     border: 1.5px solid #eee;
     border-radius: 50px; /* Pill shape */
     padding: 8px 18px;
-    width: 300px; /* Modern compact width */
+    width: 250px; /* Modern compact width */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -567,7 +572,7 @@ box-sizing: border-box;
     font-size: 14px;
     font-weight: 500;
     color: #2d3748;
-    : 120px;
+    
 }
 
 #searchInput::placeholder {
@@ -743,10 +748,10 @@ border-bottom-right-radius: 9999px;
 /* GRID */
 .grid {
     display: grid;
-    /* Change 1fr to a fixed max width (like 280px) or use repeat with a specific number */
-    grid-template-columns: repeat(auto-fill, minmax(220px, 280px)); 
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: repeat(2, auto);
     gap: 25px;
-    justify-content: center; /* Optional: keeps the cards centered in the container */
+    justify-content: stretch;
 }
 
 
